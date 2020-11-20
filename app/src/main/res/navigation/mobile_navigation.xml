@@ -22,4 +22,9 @@
         android:name="com.missclick.fireassistant.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/cameraFragment"
+        android:name="com.missclick.fireassistant.ui.dashboard.CameraFragment"
+        android:label="camera_fragment"
+        tools:layout="@layout/camera_fragment" />
 </navigation>
