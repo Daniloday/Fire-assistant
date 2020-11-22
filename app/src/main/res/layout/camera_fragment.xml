@@ -9,7 +9,6 @@
 
 
 
-
     <com.camerakit.CameraKitView
         android:id="@+id/camera"
         android:layout_width="match_parent"
@@ -20,7 +19,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
+    <com.google.android.material.imageview.ShapeableImageView
+        android:src="@drawable/sniperrifle"
+        android:rotation="90"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <Button
         android:id="@+id/btn"
