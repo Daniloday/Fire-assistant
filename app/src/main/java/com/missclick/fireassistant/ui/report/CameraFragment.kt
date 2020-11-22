@@ -1,28 +1,17 @@
-package com.missclick.fireassistant.ui.dashboard
+package com.missclick.fireassistant.ui.report
 
-import android.Manifest
-import android.content.Context
-import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
-import android.graphics.ImageFormat
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import android.hardware.camera2.CameraAccessException
-import android.hardware.camera2.CameraCharacteristics
-import android.hardware.camera2.CameraManager
-import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.camerakit.CameraKitView
@@ -63,18 +52,18 @@ class CameraFragment : Fragment(), SensorEventListener {
 
         cameraKitView = camera
         btn.setOnClickListener {
-            cameraKitView.captureImage { cameraKitView, capturedImage ->
+            cameraKitView.captureImage { _, capturedImage ->
                 Log.e("callback", "works")
                 val savedPhoto = File(Environment.getExternalStorageDirectory(), "photo.jpg")
                 try {
-                    val outputStream = FileOutputStream(savedPhoto.getPath())
+                    val outputStream = FileOutputStream(savedPhoto.path)
                     outputStream.write(capturedImage)
                     outputStream.close()
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
                 val bitmap = BitmapFactory.decodeByteArray(capturedImage, 0, capturedImage.size)
-                kekWImage.setImageBitmap(bitmap)
+//                kekWImage.setImageBitmap(bitmap)
             }
         }
     }

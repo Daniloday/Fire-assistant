@@ -1,4 +1,4 @@
-package com.missclick.fireassistant.ui.dashboard
+package com.missclick.fireassistant.ui.report
 
 import androidx.lifecycle.ViewModel
 
