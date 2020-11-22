@@ -15,7 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.checkSelfPermission
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.missclick.fireassistant.MainActivity
@@ -35,22 +35,22 @@ class CameraFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
 
         if ((activity as MainActivity).checkSelfPermission(Manifest.permission.CAMERA) !== PackageManager.PERMISSION_GRANTED
             ||
             ContextCompat.checkSelfPermission(
-                (activity as MainActivity),
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    (activity as MainActivity),
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             requestPermissions(
-                arrayOf(
-                    Manifest.permission.CAMERA,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                ), 1
+                    arrayOf(
+                            Manifest.permission.CAMERA,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    ), 1
             )
         }
         return inflater.inflate(R.layout.camera_fragment, container, false)
@@ -110,6 +110,24 @@ class CameraFragment : Fragment() {
 //            Log.e(LOG_TAG, e.getMessage())
             e.printStackTrace()
         }
+
+        mCameraManager = (activity as MainActivity).getSystemService(Context.CAMERA_SERVICE) as CameraManager?
+        try {
+
+            // Получение списка камер с устройства
+            myCameras = arrayOf(arrayOfNulls<CameraService>(mCameraManager!!.cameraIdList.size).toString())
+            for (cameraID in mCameraManager!!.cameraIdList) {
+                Log.i(LOG_TAG, "cameraID: $cameraID")
+                val id = cameraID.toInt()
+
+                // создаем обработчик для камеры
+//                myCameras.get(id) = CameraService(mCameraManager!!, cameraID)
+            }
+        } catch (e: CameraAccessException) {
+            Log.e(LOG_TAG, e.message!!)
+            e.printStackTrace()
+        }
+
     }
 
 }
