@@ -14,9 +14,11 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import com.camerakit.CameraKitView
 import com.missclick.fireassistant.MainActivity
 import com.missclick.fireassistant.R
+import com.missclick.fireassistant.ui.report.photoReview.PhotoReviewFragment
 import kotlinx.android.synthetic.main.camera_fragment.*
 import java.io.File
 import java.io.FileOutputStream
@@ -53,17 +55,8 @@ class CameraFragment : Fragment(), SensorEventListener {
         cameraKitView = camera
         btn.setOnClickListener {
             cameraKitView.captureImage { _, capturedImage ->
-                Log.e("callback", "works")
-                val savedPhoto = File(Environment.getExternalStorageDirectory(), "photo.jpg")
-                try {
-                    val outputStream = FileOutputStream(savedPhoto.path)
-                    outputStream.write(capturedImage)
-                    outputStream.close()
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
-                val bitmap = BitmapFactory.decodeByteArray(capturedImage, 0, capturedImage.size)
-//                kekWImage.setImageBitmap(bitmap)
+                Log.e("log","sniato")
+                it.findNavController().navigate(R.id.navigation_review, PhotoReviewFragment.newInstance(azimuth = z, photo = capturedImage))
             }
         }
     }

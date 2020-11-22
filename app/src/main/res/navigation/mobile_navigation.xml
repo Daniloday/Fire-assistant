@@ -9,13 +9,27 @@
         android:id="@+id/navigation_list"
         android:name="com.missclick.fireassistant.ui.list.ListFragment"
         android:label="@string/list"
-        tools:layout="@layout/list_fragment" />
+        tools:layout="@layout/list_fragment" >
+        <action
+            android:id="@+id/action_navigation_list_to_navigation_report2"
+            app:destination="@id/navigation_report" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_report"
         android:name="com.missclick.fireassistant.ui.report.CameraFragment"
         android:label="@string/report"
-        tools:layout="@layout/camera_fragment" />
+        tools:layout="@layout/camera_fragment" >
+        <action
+            android:id="@+id/action_navigation_report_to_navigation_review"
+            app:destination="@id/navigation_review" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_review"
+        android:name="com.missclick.fireassistant.ui.report.photoReview.PhotoReviewFragment"
+        android:label="@string/report"
+        tools:layout="@layout/photo_review_fragment" />
 
 
 
