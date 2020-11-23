@@ -1,38 +1,50 @@
 package com.missclick.fireassistant.ui.report
 
-import android.graphics.BitmapFactory
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Bundle
-import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.camerakit.CameraKitView
+import com.google.android.gms.location.*
+import com.google.firebase.ktx.Firebase
 import com.missclick.fireassistant.MainActivity
 import com.missclick.fireassistant.R
 import com.missclick.fireassistant.ui.report.photoReview.PhotoReviewFragment
 import kotlinx.android.synthetic.main.camera_fragment.*
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
+import pub.devrel.easypermissions.AfterPermissionGranted
+import pub.devrel.easypermissions.EasyPermissions
 
 
-class CameraFragment : Fragment(), SensorEventListener {
+class CameraFragment : Fragment(), SensorEventListener{
 
     private lateinit var cameraViewModel: CameraViewModel
     private lateinit var cameraKitView: CameraKitView
     private var sensorManager: SensorManager? = null
+    private var locationManager: LocationManager? = null
     private var x = 0f
     private var y = 0f
     private var z = 0f
+    private var longitude = 0.0
+    private var latitude = 0.0
+
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -48,17 +60,44 @@ class CameraFragment : Fragment(), SensorEventListener {
         super.onViewCreated(view, savedInstanceState)
         cameraViewModel =
                 ViewModelProvider(this).get(CameraViewModel::class.java)
-        sensorManager = ((activity as MainActivity).getSystemService(AppCompatActivity.SENSOR_SERVICE) as SensorManager)
+        sensorManager = (activity as MainActivity).getSystemService(AppCompatActivity.SENSOR_SERVICE) as SensorManager
         val accelerometer = sensorManager!!.getDefaultSensor(Sensor.TYPE_ORIENTATION) //TYPE_ORIENTATION
         sensorManager!!.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME)
+
+        locationManager = (activity as MainActivity).getSystemService(Context.LOCATION_SERVICE) as LocationManager?
+        if(ActivityCompat.checkSelfPermission((activity as MainActivity),Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission((activity as MainActivity),android.Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions((activity as MainActivity),arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION),1)
+        }
+        val request = LocationRequest()
+        request.interval = 10000
+        request.fastestInterval = 5000
+        request.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        val permission = ContextCompat.checkSelfPermission((activity as MainActivity), Manifest.permission.ACCESS_FINE_LOCATION
+        )
+        val fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activity as MainActivity)
+        if (permission == PackageManager.PERMISSION_GRANTED) {
+            fusedLocationClient.requestLocationUpdates(request, object : LocationCallback() {
+                override fun onLocationResult(locationResult: LocationResult) {
+                    val location: Location? = locationResult.lastLocation
+                    if (location != null) {
+                        longitude = location!!.longitude
+                        latitude = location!!.latitude
+                    }
+                }
+            }, null)
+        }
 
         cameraKitView = camera
         btn.setOnClickListener {
             cameraKitView.captureImage { _, capturedImage ->
-                Log.e("log","sniato")
-                it.findNavController().navigate(R.id.navigation_review, PhotoReviewFragment.newInstance(azimuth = z, photo = capturedImage))
+                Log.e("azimuth ", x.toString())
+                Log.e(latitude.toString(), longitude.toString())
+                it.findNavController().navigate(R.id.navigation_review, PhotoReviewFragment
+                        .newInstance(latitude = latitude, longitude = longitude, azimuth = z, photo = capturedImage))
             }
         }
+
     }
 
     override fun onAccuracyChanged(
@@ -68,12 +107,9 @@ class CameraFragment : Fragment(), SensorEventListener {
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
-        z = (event!!.values[0] ).toFloat() //Azimuth
-        x = (event.values[1]).toFloat() //Pitch
-        y = (event.values[2]).toFloat(); //Roll
-        Log.e("x", x.toString())
-        Log.e("y", y.toString())
-        Log.e("z", z.toString())
+        z = (event!!.values[0] )//Azimuth
+        x = (event.values[1]) //Pitch
+        y = (event.values[2]) //Roll
     }
 
     override fun onStart() {
@@ -84,6 +120,7 @@ class CameraFragment : Fragment(), SensorEventListener {
     override fun onResume() {
         super.onResume()
         cameraKitView.onResume()
+        
     }
 
     override fun onPause() {
@@ -106,3 +143,9 @@ class CameraFragment : Fragment(), SensorEventListener {
     }
 
 }
+
+
+
+
+
+

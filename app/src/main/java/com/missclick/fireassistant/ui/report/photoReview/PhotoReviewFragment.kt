@@ -35,7 +35,7 @@ class PhotoReviewFragment : Fragment() {
 
 
     companion object {
-        fun newInstance(azimuth : Float, photo : ByteArray):Bundle{
+        fun newInstance(longitude:  Double,latitude : Double,azimuth : Float, photo : ByteArray):Bundle{
             return Bundle().apply {
                 putFloat("azimuth", azimuth)
                 putByteArray("photo", photo)
