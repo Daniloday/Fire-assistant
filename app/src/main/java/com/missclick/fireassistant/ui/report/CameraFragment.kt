@@ -8,14 +8,12 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.location.Location
-import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -24,13 +22,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.camerakit.CameraKitView
 import com.google.android.gms.location.*
-import com.google.firebase.ktx.Firebase
 import com.missclick.fireassistant.MainActivity
 import com.missclick.fireassistant.R
+import com.missclick.fireassistant.data.models.FireReportModel
 import com.missclick.fireassistant.ui.report.photoReview.PhotoReviewFragment
 import kotlinx.android.synthetic.main.camera_fragment.*
-import pub.devrel.easypermissions.AfterPermissionGranted
-import pub.devrel.easypermissions.EasyPermissions
 
 
 class CameraFragment : Fragment(), SensorEventListener{
@@ -91,10 +87,9 @@ class CameraFragment : Fragment(), SensorEventListener{
         cameraKitView = camera
         btn.setOnClickListener {
             cameraKitView.captureImage { _, capturedImage ->
-                Log.e("azimuth ", x.toString())
-                Log.e(latitude.toString(), longitude.toString())
+                Log.e("s", "se")
                 it.findNavController().navigate(R.id.navigation_review, PhotoReviewFragment
-                        .newInstance(latitude = latitude, longitude = longitude, azimuth = z, photo = capturedImage))
+                        .newInstance(data = FireReportModel(photo = capturedImage, azimuth = x, longitude = longitude, latitude = latitude)))
             }
         }
 
