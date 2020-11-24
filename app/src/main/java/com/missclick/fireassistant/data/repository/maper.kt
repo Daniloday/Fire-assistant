@@ -6,7 +6,7 @@ import com.missclick.fireassistant.data.remote.FireReportDB
 fun mapFireReportModelToDB(fireReport: FireReportModel) : FireReportDB{
     return FireReportDB(
         phoneNumber = fireReport.phoneNumber,
-        photo = fireReport.photo,
+        photo = fireReport.photo.toString(),
         azimuth = fireReport.azimuth,
         latitude = fireReport.latitude,
         longitude = fireReport.longitude,
