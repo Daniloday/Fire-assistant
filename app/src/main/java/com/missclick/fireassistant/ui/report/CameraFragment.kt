@@ -61,10 +61,7 @@ class CameraFragment : Fragment(), SensorEventListener{
         sensorManager!!.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME)
 
         locationManager = (activity as MainActivity).getSystemService(Context.LOCATION_SERVICE) as LocationManager?
-        if(ActivityCompat.checkSelfPermission((activity as MainActivity),Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission((activity as MainActivity),android.Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED)
-        {
-            ActivityCompat.requestPermissions((activity as MainActivity),arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION),1)
-        }
+        cameraInit()
         val request = LocationRequest()
         request.interval = 10000
         request.fastestInterval = 5000
@@ -84,15 +81,28 @@ class CameraFragment : Fragment(), SensorEventListener{
             }, null)
         }
 
+
+
+    }
+
+    fun cameraInit(){
         cameraKitView = camera
+        cameraKitView.setPermissionsListener(object : CameraKitView.PermissionsListener{
+            override fun onPermissionsSuccess() {
+            }
+
+            override fun onPermissionsFailure() {
+                (activity as MainActivity).sosiNogu()
+            }
+
+        })
         btn.setOnClickListener {
             cameraKitView.captureImage { _, capturedImage ->
                 Log.e("s", "se")
                 it.findNavController().navigate(R.id.navigation_review, PhotoReviewFragment
-                        .newInstance(data = FireReportModel(photo = capturedImage, azimuth = x, longitude = longitude, latitude = latitude)))
+                    .newInstance(data = FireReportModel(photo = capturedImage, azimuth = x, longitude = longitude, latitude = latitude)))
             }
         }
-
     }
 
     override fun onAccuracyChanged(
@@ -135,6 +145,7 @@ class CameraFragment : Fragment(), SensorEventListener{
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         cameraKitView.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
     }
 
 }
