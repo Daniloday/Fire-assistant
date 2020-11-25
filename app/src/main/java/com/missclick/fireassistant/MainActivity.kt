@@ -3,6 +3,7 @@ package com.missclick.fireassistant
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -29,13 +30,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-//    fun permissionCamera(){
-//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-//            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA),
-//                1)
-//        }
-//    }
-
     fun permission(){
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
             && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -47,7 +41,28 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when(requestCode){
+            1 -> {
+                if(grantResults.size > 1
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                    && grantResults[1] == PackageManager.PERMISSION_GRANTED
+                    && grantResults[2] == PackageManager.PERMISSION_GRANTED){
+                    Log.e("Permission", "All permission granted")
+                }
+                else{
+                    sosiNogu()
+                }
+            }
+        }
+    }
+
     fun sosiNogu(){
+        Log.e("Permission", "No permission")
         finish()
     }
 }

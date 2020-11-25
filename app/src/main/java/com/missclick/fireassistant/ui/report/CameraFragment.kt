@@ -41,27 +41,17 @@ class CameraFragment : Fragment(), SensorEventListener{
     private var longitude = 0.0
     private var latitude = 0.0
 
-
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-
-        return inflater.inflate(R.layout.camera_fragment, container, false)
-    }
-
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         cameraViewModel =
                 ViewModelProvider(this).get(CameraViewModel::class.java)
-        sensorManager = (activity as MainActivity).getSystemService(AppCompatActivity.SENSOR_SERVICE) as SensorManager
-        val accelerometer = sensorManager!!.getDefaultSensor(Sensor.TYPE_ORIENTATION) //TYPE_ORIENTATION
-        sensorManager!!.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME)
-
-        locationManager = (activity as MainActivity).getSystemService(Context.LOCATION_SERVICE) as LocationManager?
+        cameraKitView = view.findViewById(R.id.camera)
         cameraInit()
+        sensorInit()
+        locationInit()
+    }
+
+    fun locationInit(){
         val request = LocationRequest()
         request.interval = 10000
         request.fastestInterval = 5000
@@ -80,13 +70,17 @@ class CameraFragment : Fragment(), SensorEventListener{
                 }
             }, null)
         }
+    }
 
+    fun sensorInit(){
+        sensorManager = (activity as MainActivity).getSystemService(AppCompatActivity.SENSOR_SERVICE) as SensorManager
+        val accelerometer = sensorManager!!.getDefaultSensor(Sensor.TYPE_ORIENTATION) //TYPE_ORIENTATION
+        sensorManager!!.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME)
 
-
+        locationManager = (activity as MainActivity).getSystemService(Context.LOCATION_SERVICE) as LocationManager?
     }
 
     fun cameraInit(){
-        cameraKitView = camera
         cameraKitView.setPermissionsListener(object : CameraKitView.PermissionsListener{
             override fun onPermissionsSuccess() {
             }
@@ -98,7 +92,7 @@ class CameraFragment : Fragment(), SensorEventListener{
         })
         btn.setOnClickListener {
             cameraKitView.captureImage { _, capturedImage ->
-                Log.e("s", "se")
+                Log.e("s", "azimuth : $x, longitude : $longitude, latitude : $latitude")
                 it.findNavController().navigate(R.id.navigation_review, PhotoReviewFragment
                     .newInstance(data = FireReportModel(photo = capturedImage, azimuth = x, longitude = longitude, latitude = latitude)))
             }
@@ -125,7 +119,7 @@ class CameraFragment : Fragment(), SensorEventListener{
     override fun onResume() {
         super.onResume()
         cameraKitView.onResume()
-        
+
     }
 
     override fun onPause() {
