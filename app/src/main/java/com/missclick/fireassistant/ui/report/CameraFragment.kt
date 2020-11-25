@@ -100,7 +100,7 @@ class CameraFragment : Fragment(), SensorEventListener{
         })
         btn.setOnClickListener {
             cameraKitView.captureImage { _, capturedImage ->
-                Log.e("s", "se")
+                Log.e("Capture", "azimuth : $x, longitude : $longitude, latitude : $latitude")
                 it.findNavController().navigate(R.id.navigation_review, PhotoReviewFragment
                     .newInstance(data = FireReportModel(photo = capturedImage, azimuth = x, longitude = longitude, latitude = latitude)))
             }
