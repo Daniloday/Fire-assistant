@@ -19,8 +19,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-
-
     <com.google.android.material.imageview.ShapeableImageView
         android:src="@drawable/sniperrifle"
         android:rotation="90"

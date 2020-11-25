@@ -41,17 +41,24 @@ class CameraFragment : Fragment(), SensorEventListener{
     private var longitude = 0.0
     private var latitude = 0.0
 
+
+    override fun onCreateView(
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
+
+        return inflater.inflate(R.layout.camera_fragment, container, false)
+    }
+
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         cameraViewModel =
                 ViewModelProvider(this).get(CameraViewModel::class.java)
-        cameraKitView = view.findViewById(R.id.camera)
+
         cameraInit()
         sensorInit()
-        locationInit()
-    }
-
-    fun locationInit(){
         val request = LocationRequest()
         request.interval = 10000
         request.fastestInterval = 5000
@@ -81,6 +88,7 @@ class CameraFragment : Fragment(), SensorEventListener{
     }
 
     fun cameraInit(){
+        cameraKitView = camera
         cameraKitView.setPermissionsListener(object : CameraKitView.PermissionsListener{
             override fun onPermissionsSuccess() {
             }
@@ -92,7 +100,7 @@ class CameraFragment : Fragment(), SensorEventListener{
         })
         btn.setOnClickListener {
             cameraKitView.captureImage { _, capturedImage ->
-                Log.e("s", "azimuth : $x, longitude : $longitude, latitude : $latitude")
+                Log.e("s", "se")
                 it.findNavController().navigate(R.id.navigation_review, PhotoReviewFragment
                     .newInstance(data = FireReportModel(photo = capturedImage, azimuth = x, longitude = longitude, latitude = latitude)))
             }
