@@ -1,6 +1,6 @@
-package com.missclick.fireassistant.data.remote
+package com.missclick.fireassistant.data.models
 
-data class FireReportDB(
+data class FireReportRemoteModel(
         val phoneNumber: String = "102",
         val photo: String,
         val azimuth: Float,

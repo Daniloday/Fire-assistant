@@ -1,11 +1,8 @@
 package com.missclick.fireassistant.data.remote
 
-import android.util.Log
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
+import com.missclick.fireassistant.data.models.FireReportRemoteModel
 
 class FireBaseDB {
 
@@ -17,7 +14,7 @@ class FireBaseDB {
         dbRef = db.getReference("FireSpots")
     }
 
-    fun fireReport(fireReportDB: FireReportDB) {
+    fun fireReport(fireReportRemoteModel: FireReportRemoteModel) {
 //        return GlobalScope.async {
 //            val idLog = dbRef.push().key
 //            Log.e("db", idLog.toString())
@@ -28,9 +25,10 @@ class FireBaseDB {
 //            else null
 //        }
 //        dbRef.setValue("hello")
+
         val idLog = dbRef.push().key
         if (idLog != null) {
-            dbRef.child(idLog).setValue(fireReportDB)
+            dbRef.child(idLog).setValue(fireReportRemoteModel)
         }
 
     }
