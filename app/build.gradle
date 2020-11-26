@@ -69,5 +69,7 @@ dependencies {
     // For developers using the Android Support Library
     implementation 'pub.devrel:easypermissions:2.0.1'
 
+    implementation 'com.google.firebase:firebase-storage:19.1.0'
+
 
 }

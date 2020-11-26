@@ -13,7 +13,7 @@ class PhotoReviewViewModel : ViewModel() {
 
     fun fireReport(fireReportModel: FireReportModel){
         GlobalScope.launch(Dispatchers.IO) {
-            Repository(FireBaseDB()).fireReport(fireReportModel = fireReportModel)
+            Repository().fireReport(fireReportModel = fireReportModel)
         }
     }
 
