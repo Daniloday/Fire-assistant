@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "952043717405",
+    "firebase_url": "https://fire-assistant-44675.firebaseio.com",
+    "project_id": "fire-assistant-44675",
+    "storage_bucket": "fire-assistant-44675.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:952043717405:android:4fb76552ffac1be4fc57f4",
+        "android_client_info": {
+          "package_name": "com.missclick.fireassistant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "952043717405-br0mr7fi5sl8eqiivnshc9aosa1nnfje.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCClwfZT7u-jFsKhZxi_JmhGy7wow9BkuU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "952043717405-br0mr7fi5sl8eqiivnshc9aosa1nnfje.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
