@@ -4,6 +4,8 @@ import android.net.Uri
 import android.util.Log
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import kotlinx.coroutines.tasks.await
+import java.lang.Exception
 import java.util.*
 
 class FirebaseStore {
@@ -13,6 +15,19 @@ class FirebaseStore {
     init {
         val storage = FirebaseStorage.getInstance()
         storageRef = storage.getReference("pictures")
+    }
+
+    suspend fun uploadImageSuspend(userId : String, photoId : String, byteArray: ByteArray) : Boolean{
+        return try {
+            val data = storageRef
+                    .child(userId)
+                    .child(photoId)
+                    .putBytes(byteArray)
+                    .await()
+            true
+        } catch (e : Exception){
+            false
+        }
     }
 
     fun uploadImage(userId : String, photoId : String, byteArray: ByteArray){
