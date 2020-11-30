@@ -19,9 +19,9 @@ fun mapDBtoFireRepordModel(fireReportRemoteModel: FireReportRemoteModel, photo :
     return FireReportModel(
         phoneNumber = fireReportRemoteModel.phoneNumber,
         photo = photo,
-        azimuth = fireReportRemoteModel.azimuth,
-        latitude = fireReportRemoteModel.latitude,
-        longitude = fireReportRemoteModel.longitude,
-        description = fireReportRemoteModel.description
+        azimuth = fireReportRemoteModel.azimuth!!,
+        latitude = fireReportRemoteModel.latitude!!,
+        longitude = fireReportRemoteModel.longitude!!,
+        description = fireReportRemoteModel.description!!
     )
 }

@@ -1,8 +1,11 @@
 package com.missclick.fireassistant.data.remote
 
 import android.util.Log
+import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.getValue
+import com.missclick.fireassistant.data.models.AllFireReports
 import com.missclick.fireassistant.data.models.FireReportModel
 import com.missclick.fireassistant.data.models.FireReportRemoteModel
 import com.missclick.fireassistant.data.remote.features.getValue
@@ -13,6 +16,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.tasks.await
+import java.lang.Exception
 
 class FireBaseDB {
 
@@ -58,15 +62,38 @@ class FireBaseDB {
     fun getAllFireReports(fireStore : FirebaseStore, userId : String) = flow<FirebaseState<FireReportModel>>{
         emit(FirebaseState.loading())
         val snapshot = dbRef.getValue().await()
-        val data = snapshot.getValue(FireReportRemoteModel::class.java)
-        val image =
-            data?.photo?.let { fireStore.getImage(userId = userId, photoId = it) }
-        Log.e("FirebaseDb", "image ${image.toString()}")
-        if(image != null)
-            emit(FirebaseState.success(mapDBtoFireRepordModel(data, image)))
-        else emit(FirebaseState.failed("data or image are null"))
+        val data = getReportsForString(snapshots = snapshot)
+        Log.e("FirebaseDB", "data : ${data.toString()}")
+
+        for(report in data.reports!!){
+            val image = report.photo?.let { fireStore.getImage(userId = userId, photoId = it) }
+            Log.e("FirebaseDB", "image : ${image.toString()}, report : ${report.toString()}")
+            if(image != null){
+                try {
+                    emit(FirebaseState.success(mapDBtoFireRepordModel(report, image)))
+                } catch (e : Exception){
+                    Log.e("FirebaseDB", e.toString())
+                }
+            }
+            else emit(FirebaseState.failed("data or image are null"))
+        }
+
     }.catch {
         emit(FirebaseState.failed(it.message.toString()))
     }.flowOn(Dispatchers.IO)
+
+
+     private fun getReportsForString(snapshots : DataSnapshot) : AllFireReports{
+        val reports = AllFireReports()
+        for(snapshot in snapshots.children){
+            //Log.e("Kek", "snapshot : ${snapshot.toString()} ")
+            val model = snapshot.getValue<FireReportRemoteModel>()
+            if (model != null) {
+                reports.reports?.add(model)
+            }
+
+        }
+        return reports
+    }
 
 }

@@ -35,15 +35,15 @@ class ListViewModel : ViewModel(), CoroutineScope {
                             Log.e("ListViewModel", "Loading")
                         }
                         is FirebaseState.Success -> {
-                            Log.e("ListViewModel", it.data.toString())
+                            Log.e("ListViewModel", "Success ${it.data.toString()}")
                         }
                         is FirebaseState.Failed -> {
-                            Log.e("ListViewModel", it.message)
+                            Log.e("ListViewModel", "Failed ${it.message}")
                         }
                     }
                 }
             } catch (e : Exception){
-                Log.e("ListViewModel", e.toString())
+                Log.e("ListViewModel", "Error ${e.toString()}")
             }
         }
     }

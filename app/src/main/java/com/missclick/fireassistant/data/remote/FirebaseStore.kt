@@ -7,8 +7,8 @@ import kotlinx.coroutines.tasks.await
 
 class FirebaseStore {
 
-    val storageRef : StorageReference
-    val ONE_MEGABYTE = 1024 * 1024.toLong()
+    private val storageRef : StorageReference
+    private val ONE_MEGABYTE = 1024 * 1024.toLong()
 
 
     init {
@@ -38,7 +38,7 @@ class FirebaseStore {
                 .await()
             image
         } catch (e : java.lang.Exception){
-            Log.e("FirebaseStore", "Error getImage")
+            Log.e("FirebaseStore", "Error getImage ${e.toString()}")
             null
         }
     }
