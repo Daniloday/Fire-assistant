@@ -28,9 +28,11 @@ class PhotoReviewViewModel : ViewModel() {
 //                liveToastText.value = it
 //            })
             try {
-                val isSuccess = Repository().fireReportSuspend(fireReportModel = fireReportModel)
-                isSuccess.collect{
+                Repository().fireReport(fireReportModel).collect{
                     when(it){
+                        is FirebaseState.Loading ->{
+                            Log.e("PreviewViewModel", "Loading")
+                        }
                         is FirebaseState.Success -> {
                             withContext(Dispatchers.Main){ liveToastText.value = "Success" }
                         }
@@ -40,7 +42,7 @@ class PhotoReviewViewModel : ViewModel() {
                     }
                 }
             } catch (e : Exception){
-                Log.e("ViewModel", e.toString())
+                Log.e("PreviewViewModel", e.toString())
             }
 
         }

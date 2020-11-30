@@ -14,3 +14,14 @@ fun mapFireReportModelToDB(fireReport: FireReportModel, photoId : String) : Fire
         description = fireReport.description
     )
 }
+
+fun mapDBtoFireRepordModel(fireReportRemoteModel: FireReportRemoteModel, photo : ByteArray) : FireReportModel{
+    return FireReportModel(
+        phoneNumber = fireReportRemoteModel.phoneNumber,
+        photo = photo,
+        azimuth = fireReportRemoteModel.azimuth,
+        latitude = fireReportRemoteModel.latitude,
+        longitude = fireReportRemoteModel.longitude,
+        description = fireReportRemoteModel.description
+    )
+}

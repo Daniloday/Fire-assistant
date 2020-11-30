@@ -3,6 +3,7 @@ package com.missclick.fireassistant.data.repository
 
 import android.util.Log
 import com.missclick.fireassistant.data.models.FireReportModel
+import com.missclick.fireassistant.data.models.FireReportRemoteModel
 import com.missclick.fireassistant.data.remote.FireBaseDB
 import com.missclick.fireassistant.data.remote.FirebaseStore
 import com.missclick.fireassistant.data.remote.states.FirebaseState
@@ -33,6 +34,12 @@ class Repository : IRepository {
             Log.e("FireReport", "Success image, upload DB")
             return fireBaseDB.fireReportSuspend(fireReportRemoteModel = fireReportDB)
         }
-        throw CancellationException()
+        throw Exception()
     }
+
+    override suspend fun getAllFireReports(): Flow<FirebaseState<FireReportModel>> {
+        return fireBaseDB.getAllFireReports(userId = "testUserId", fireStore = fireBaseStore)
+    }
+
+
 }

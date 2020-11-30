@@ -7,4 +7,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface IRepository {
     suspend fun fireReport(fireReport: FireReportModel) : Flow<FirebaseState<Boolean>>
+    suspend fun getAllFireReports() : Flow<FirebaseState<FireReportModel>>
 }
