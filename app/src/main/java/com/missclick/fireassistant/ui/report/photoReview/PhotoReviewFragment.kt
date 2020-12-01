@@ -49,7 +49,7 @@ class PhotoReviewFragment : Fragment() {
     companion object {
         fun newInstance(data : FireReportModel):Bundle{
             return Bundle().apply {
-                putSerializable("data",data)
+                putSerializable("data", data)
             }
         }
     }

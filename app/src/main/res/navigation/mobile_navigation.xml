@@ -30,7 +30,11 @@
         android:name="com.missclick.fireassistant.ui.report.photoReview.PhotoReviewFragment"
         android:label="@string/report"
         tools:layout="@layout/photo_review_fragment" />
-
+    <fragment
+        android:id="@+id/navigation_my_reports"
+        android:name="com.missclick.fireassistant.ui.myreports.MyReports"
+        android:label="my_reports_fragment"
+        tools:layout="@layout/my_reports_fragment" />
 
 
 </navigation>

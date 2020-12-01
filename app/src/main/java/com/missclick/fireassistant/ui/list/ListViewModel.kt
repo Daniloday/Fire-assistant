@@ -27,7 +27,7 @@ class ListViewModel : ViewModel(), CoroutineScope {
 
 
     fun getList(){
-        launch(Dispatchers.IO) {
+        launch {
             try {
                 repository.getAllFireReports().collect{
                     when(it){
@@ -46,6 +46,11 @@ class ListViewModel : ViewModel(), CoroutineScope {
                 Log.e("ListViewModel", "Error ${e.toString()}")
             }
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        job.cancel()
     }
 
 //    fun getList(){

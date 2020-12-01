@@ -11,5 +11,10 @@
         android:icon="@drawable/ic_dashboard_black_24dp"
         android:title="@string/report" />
 
+    <item
+        android:id="@+id/navigation_my_reports"
+        android:icon="@drawable/accept_btn_out"
+        android:title="My Reports" />
+
 
 </menu>
