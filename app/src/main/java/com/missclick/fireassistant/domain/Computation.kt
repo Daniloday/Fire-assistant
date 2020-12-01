@@ -30,6 +30,7 @@ class Computation() {
         for(fire in firesAll){
             fires.add(getCentre(fire))
             emit(getCentre(fire))
+            //todo peredelat'
         }
     }
 

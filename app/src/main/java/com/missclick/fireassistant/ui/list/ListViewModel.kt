@@ -7,9 +7,12 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.missclick.fireassistant.data.models.FireReportModel
 import com.missclick.fireassistant.data.remote.FireBaseDB
 import com.missclick.fireassistant.data.remote.states.FirebaseState
 import com.missclick.fireassistant.data.repository.Repository
+import com.missclick.fireassistant.domain.Computation
+import com.missclick.fireassistant.domain.Coordinate
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 
@@ -26,8 +29,9 @@ class ListViewModel : ViewModel(), CoroutineScope {
         get() = Dispatchers.Main + job
 
 
-    fun getList(){
+    fun getList(coordinate: Coordinate){
         launch {
+            val fireReports = mutableListOf<FireReportModel>()
             try {
                 repository.getAllFireReports().collect{
                     when(it){
@@ -36,6 +40,13 @@ class ListViewModel : ViewModel(), CoroutineScope {
                         }
                         is FirebaseState.Success -> {
                             Log.e("ListViewModel", "Success ${it.data.toString()}")
+                            fireReports.add(it.data)
+                            if (fireReports.size > 1) withContext(Dispatchers.IO){
+                                val computation = Computation()
+                                computation.getFires(fireReports,10.0,200.0, coordinate).collect {fire ->
+                                    Log.e("emit comp",fire.toString())
+                                }
+                            }
                         }
                         is FirebaseState.Failed -> {
                             Log.e("ListViewModel", "Failed ${it.message}")
