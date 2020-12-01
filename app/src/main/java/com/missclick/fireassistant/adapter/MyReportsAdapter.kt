@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.missclick.fireassistant.R
 import com.missclick.fireassistant.data.models.FireReportModel
 
-class MyReportsAdapter : RecyclerView.Adapter<MyReportsAdapter.MyReportViewHolder>() {
+class MyReportsAdapter(val callback : (FireReportModel) -> (Unit)) : RecyclerView.Adapter<MyReportsAdapter.MyReportViewHolder>() {
 
     private val reports = mutableListOf<FireReportModel>()
 
@@ -38,6 +38,9 @@ class MyReportsAdapter : RecyclerView.Adapter<MyReportsAdapter.MyReportViewHolde
         private val image : ImageView = itemView.findViewById(R.id.report_image)
         fun bind(model : FireReportModel){
             image.setImageBitmap(BitmapFactory.decodeByteArray(model.photo, 0, model.photo.size))
+            image.setOnClickListener {
+                callback.invoke(model)
+            }
         }
     }
 

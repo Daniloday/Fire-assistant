@@ -35,6 +35,11 @@
         android:name="com.missclick.fireassistant.ui.myreports.MyReports"
         android:label="my_reports_fragment"
         tools:layout="@layout/my_reports_fragment" />
+    <fragment
+        android:id="@+id/detailsReportFragment"
+        android:name="com.missclick.fireassistant.ui.myreports.deteils.DetailsReportFragment"
+        android:label="fragment_details_report"
+        tools:layout="@layout/fragment_details_report" />
 
 
 </navigation>
