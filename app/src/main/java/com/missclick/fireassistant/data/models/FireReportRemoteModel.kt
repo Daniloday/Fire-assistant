@@ -1,10 +1,13 @@
 package com.missclick.fireassistant.data.models
 
 data class FireReportRemoteModel(
-        val phoneNumber: String = "102",
-        val photo: String,
-        val azimuth: Float,
-        val longitude: Double,
-        val latitude: Double,
-        val description: String
+        var phoneNumber: String = "102",
+        var photo: String? = "",
+        var azimuth: Float? = 0.0f,
+        var longitude: Double? = 0.0,
+        var latitude: Double? = 0.0,
+        var description: String? = ""
 )
+
+data class AllFireReports(val reports : MutableList<FireReportRemoteModel>? = mutableListOf())
+

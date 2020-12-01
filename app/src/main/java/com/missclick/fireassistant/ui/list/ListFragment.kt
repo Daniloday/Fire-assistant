@@ -24,4 +24,9 @@ class ListFragment : Fragment() {
         return inflater.inflate(R.layout.list_fragment, container, false)
 
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        listViewModel.getList()
+    }
 }

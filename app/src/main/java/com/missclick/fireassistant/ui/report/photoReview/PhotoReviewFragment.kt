@@ -7,7 +7,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.observe
 import androidx.navigation.findNavController
+import com.missclick.fireassistant.MainActivity
 import com.missclick.fireassistant.R
 import com.missclick.fireassistant.data.models.FireReportModel
 import kotlinx.android.synthetic.main.photo_review_fragment.*
@@ -35,6 +38,10 @@ class PhotoReviewFragment : Fragment() {
         next_button.setOnClickListener {
 //            it.findNavController().navigate()
             viewModel.fireReport(fireReportModel = data!!)
+        }
+
+        viewModel.liveToastText.observe(viewLifecycleOwner) {
+            Toast.makeText(activity as MainActivity, it, Toast.LENGTH_LONG).show()
         }
     }
 
