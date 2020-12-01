@@ -43,7 +43,7 @@ class ListViewModel : ViewModel(), CoroutineScope {
                             fireReports.add(it.data)
                             if (fireReports.size > 1) withContext(Dispatchers.IO){
                                 val computation = Computation()
-                                computation.getFires(fireReports,10.0,200.0, coordinate).collect {fire ->
+                                computation.getFires(fireReports,200.0,200.0, coordinate).collect {fire ->
                                     Log.e("emit comp",fire.toString())
                                 }
                             }
