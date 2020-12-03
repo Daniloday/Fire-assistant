@@ -17,6 +17,11 @@ import com.missclick.fireassistant.domain.Coordinate
 class FireListAdapter(val callback : (FireModel) -> (Unit)): RecyclerView.Adapter<FireListAdapter.FireListViewHolder>() {
 
     private val reports = mutableListOf<FireModel>()
+    var myCoordinate: Coordinate? = null
+
+    fun setCoordinate(coordinate: Coordinate){
+        myCoordinate = coordinate
+    }
 
     fun setData(fireList : List<FireModel>){
         reports.clear()
@@ -24,8 +29,8 @@ class FireListAdapter(val callback : (FireModel) -> (Unit)): RecyclerView.Adapte
         notifyDataSetChanged()
     }
 
-    fun sort(myCoordinate: Coordinate){
-        reports.sortBy { Computation.getRadius(firstCoordinate = myCoordinate, secondCoordinate = it.coordinate)  }
+    fun sort(){
+        reports.sortBy { myCoordinate?.let { it1 -> Computation.getRadius(firstCoordinate = it1, secondCoordinate = it.coordinate) } }
     }
 
     fun addReport(fireModel: FireModel){
@@ -69,6 +74,8 @@ class FireListAdapter(val callback : (FireModel) -> (Unit)): RecyclerView.Adapte
             root.setOnClickListener {
                 callback.invoke(model)
             }
+            kilometres.text = (myCoordinate?.let { Computation.getRadius(firstCoordinate = it, secondCoordinate = model.coordinate) }
+                ?.times(111)).toString()
         }
     }
 

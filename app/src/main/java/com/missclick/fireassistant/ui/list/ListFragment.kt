@@ -58,6 +58,9 @@ class ListFragment : Fragment() {
         request.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         val permission = ContextCompat.checkSelfPermission((activity as MainActivity), Manifest.permission.ACCESS_FINE_LOCATION
         )
+        val adapter = FireListAdapter{
+            view.findNavController().navigate(R.id.detailsFireFragment, DetailsFireFragment.newInstance(it))
+        }
         val fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activity as MainActivity)
         if (permission == PackageManager.PERMISSION_GRANTED) {
             fusedLocationClient.requestLocationUpdates(request, object : LocationCallback() {
@@ -66,13 +69,11 @@ class ListFragment : Fragment() {
                     if (location != null) {
                         longitude = location!!.longitude
                         latitude = location!!.latitude
-                        listViewModel.getList(Coordinate(x = longitude,y = latitude))
+                        listViewModel.getList(Coordinate(x = latitude,y = longitude))
+                        adapter.setCoordinate(Coordinate(x = latitude,y = longitude))
                     }
                 }
             }, null)
-        }
-        val adapter = FireListAdapter{
-            view.findNavController().navigate(R.id.detailsFireFragment, DetailsFireFragment.newInstance(it))
         }
         val layoutManager = LinearLayoutManager(activity as MainActivity)
         recycleFires.adapter = adapter
@@ -80,7 +81,7 @@ class ListFragment : Fragment() {
         listViewModel.myReports.observe(viewLifecycleOwner) {
             Log.e("MyReport", it.toString())
             adapter.addReport(it)
-//            adapter.sort(Coordinate(x = latitude, y = longitude))
+            adapter.sort()
         }
     }
 }
