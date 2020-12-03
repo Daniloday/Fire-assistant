@@ -20,14 +20,15 @@ class Computation() {
         val firesAll = mutableListOf<MutableList<FireModel>>()
         val newReportList = mutableListOf<FireReportModel>()
         for (report in reportList){
-            if(getRadius(Coordinate(report.latitude, report.longitude), myCoordinate) < searchRadius) {
+            if(getRadius(Coordinate(report.latitude, report.longitude), myCoordinate) < (searchRadius/1)) {
+                Log.e("getR",getRadius(Coordinate(report.latitude, report.longitude), myCoordinate).toString())
                 newReportList.add(report)
             }
         }
         val points = getAllIntersectionPoints(reportList = newReportList)
         loop@ for (point in points) {
             for (fire in firesAll) {
-                if(getRadius(point.coordinate, fire[0].coordinate) < fireRadius) {
+                if(getRadius(point.coordinate, fire[0].coordinate) < (fireRadius)) {
                     fire.add(point)
                     continue@loop
                 }
@@ -86,10 +87,11 @@ class Computation() {
         return Coordinate(x = x, y = y.toDouble())
     }
 
-    private fun getRadius(firstCoordinate: Coordinate, secondCoordinate: Coordinate) : Double{
+     companion object{ fun getRadius(firstCoordinate: Coordinate, secondCoordinate: Coordinate) : Double{
         val deltaX = firstCoordinate.x - secondCoordinate.x
         val deltaY = firstCoordinate.y - secondCoordinate.y
         return sqrt(((deltaX * deltaX) + (deltaY * deltaY)))
+     }
     }
 
     private fun getCentre(coordinates: List<FireModel>) : FireModel{

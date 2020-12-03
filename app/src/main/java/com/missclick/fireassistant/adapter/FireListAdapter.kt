@@ -11,7 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.missclick.fireassistant.R
 import com.missclick.fireassistant.data.models.FireModel
 import com.missclick.fireassistant.data.models.FireReportModel
-import org.w3c.dom.Text
+import com.missclick.fireassistant.domain.Computation
+import com.missclick.fireassistant.domain.Coordinate
 
 class FireListAdapter(val callback : (FireModel) -> (Unit)): RecyclerView.Adapter<FireListAdapter.FireListViewHolder>() {
 
@@ -21,6 +22,10 @@ class FireListAdapter(val callback : (FireModel) -> (Unit)): RecyclerView.Adapte
         reports.clear()
         reports.addAll(fireList)
         notifyDataSetChanged()
+    }
+
+    fun sort(myCoordinate: Coordinate){
+        reports.sortBy { Computation.getRadius(firstCoordinate = myCoordinate, secondCoordinate = it.coordinate)  }
     }
 
     fun addReport(fireModel: FireModel){

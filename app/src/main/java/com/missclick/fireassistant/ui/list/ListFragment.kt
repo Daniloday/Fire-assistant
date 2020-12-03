@@ -79,6 +79,7 @@ class ListFragment : Fragment() {
         listViewModel.myReports.observe(viewLifecycleOwner) {
             Log.e("MyReport", it.toString())
             adapter.addReport(it)
+//            adapter.sort(Coordinate(x = latitude, y = longitude))
         }
     }
 }
