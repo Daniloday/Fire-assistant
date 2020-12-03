@@ -8,6 +8,6 @@
     <string name="ok">Ok</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="fire_coordinate">Fire coordinate</string>
+    <string name="fire_coordinate">Fire coordinate:</string>
     <string name="go_to_googleMaps">Go to google maps</string>
 </resources>

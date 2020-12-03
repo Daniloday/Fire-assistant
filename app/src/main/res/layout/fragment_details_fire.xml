@@ -7,23 +7,21 @@
     android:orientation="vertical">
 
     <!-- TODO: Update blank fragment layout -->
-    <LinearLayout
-        android:layout_gravity="center|top"
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:text="@string/fire_coordinate"
+        android:layout_gravity="center"/>
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/fire_coordinate" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/coordinate_text" />
-
-    </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
     <Button
         android:id="@+id/go_to_google_maps_btn"
@@ -31,5 +29,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center|top"
         android:text="@string/go_to_googleMaps"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/reports_recycler"
+        />
 
 </LinearLayout>
