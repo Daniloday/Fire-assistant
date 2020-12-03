@@ -40,8 +40,7 @@ class DetailsReportFragment : Fragment() {
                 it
             )
         })
-        report_info_detail.text = "latitude : ${fireReportModel?.latitude.toString()} " +
-                "longitude :  ${fireReportModel?.longitude.toString()}"
+        report_info_detail.text = "latitude : ${fireReportModel?.latitude.toString()} \n longitude :  ${fireReportModel?.longitude.toString()}"
     }
 
     companion object {

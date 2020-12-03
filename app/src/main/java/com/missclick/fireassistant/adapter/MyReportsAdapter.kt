@@ -20,7 +20,17 @@ class MyReportsAdapter(val callback : (FireReportModel) -> (Unit)) : RecyclerVie
         notifyDataSetChanged()
     }
 
+    fun cleanData(){
+        reports.clear()
+        notifyDataSetChanged()
+    }
+
     fun addReport(fireReportModel: FireReportModel){
+        for(report in reports){
+            if(report.photo.contentEquals(fireReportModel.photo)){
+                return
+            }
+        }
         reports.add(fireReportModel)
         notifyItemInserted(reports.size - 1)
     }
