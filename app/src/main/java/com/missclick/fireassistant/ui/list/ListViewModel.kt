@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.missclick.fireassistant.data.models.FireModel
 import com.missclick.fireassistant.data.models.FireReportModel
 import com.missclick.fireassistant.data.remote.FireBaseDB
 import com.missclick.fireassistant.data.remote.states.FirebaseState
@@ -24,6 +25,7 @@ class ListViewModel : ViewModel(), CoroutineScope {
     private val job = Job()
     //val fireBaseDB = FireBaseDB()
     private val repository = Repository()
+    val myReports = MutableLiveData<FireModel>()
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job
@@ -45,6 +47,7 @@ class ListViewModel : ViewModel(), CoroutineScope {
                                 val computation = Computation()
                                 computation.getFires(fireReports,200.0,200.0, coordinate).collect {fire ->
                                     Log.e("emit comp",fire.toString())
+                                    withContext(Dispatchers.Main) { myReports.value = fire }
                                 }
                             }
                         }
