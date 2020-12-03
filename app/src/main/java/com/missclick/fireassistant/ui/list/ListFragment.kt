@@ -24,6 +24,7 @@ import com.missclick.fireassistant.R
 import com.missclick.fireassistant.adapter.FireListAdapter
 import com.missclick.fireassistant.adapter.MyReportsAdapter
 import com.missclick.fireassistant.domain.Coordinate
+import com.missclick.fireassistant.ui.list.details.DetailsFireFragment
 import com.missclick.fireassistant.ui.myreports.deteils.DetailsReportFragment
 import kotlinx.android.synthetic.main.list_fragment.*
 import kotlinx.android.synthetic.main.my_reports_fragment.*
@@ -69,7 +70,7 @@ class ListFragment : Fragment() {
             }, null)
         }
         val adapter = FireListAdapter{
-            view.findNavController().navigate(R.id.detailsReportFragment, DetailsReportFragment.newInstance(it.reports[0]))
+            view.findNavController().navigate(R.id.detailsFireFragment, DetailsFireFragment.newInstance(it))
         }
         val layoutManager = GridLayoutManager(activity as MainActivity, 3)
         recycleFires.adapter = adapter

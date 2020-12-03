@@ -41,5 +41,11 @@
         android:label="fragment_details_report"
         tools:layout="@layout/fragment_details_report" />
 
+    <fragment
+        android:id="@+id/detailsFireFragment"
+        android:name="com.missclick.fireassistant.ui.list.details.DetailsFireFragment"
+        android:label="fragment_details_fire"
+        tools:layout="@layout/fragment_details_fire" />
+
 
 </navigation>
