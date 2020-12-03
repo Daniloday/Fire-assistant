@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.*
 import com.missclick.fireassistant.MainActivity
 import com.missclick.fireassistant.R
@@ -72,7 +73,7 @@ class ListFragment : Fragment() {
         val adapter = FireListAdapter{
             view.findNavController().navigate(R.id.detailsFireFragment, DetailsFireFragment.newInstance(it))
         }
-        val layoutManager = GridLayoutManager(activity as MainActivity, 3)
+        val layoutManager = LinearLayoutManager(activity as MainActivity)
         recycleFires.adapter = adapter
         recycleFires.layoutManager = layoutManager
         listViewModel.myReports.observe(viewLifecycleOwner) {
