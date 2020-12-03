@@ -63,16 +63,16 @@ class FireBaseDB {
         emit(FirebaseState.loading())
         val snapshot = dbRef.getValue().await()
         val data = getReportsForString(snapshots = snapshot)
-        Log.e("FirebaseDB", "data : ${data.toString()}")
+        Log.d("FirebaseDB", "data : ${data.toString()}")
 
         for(report in data.reports!!){
             val image = report.photo?.let { fireStore.getImage(userId = userId, photoId = it) }
-            Log.e("FirebaseDB", "image : ${image.toString()}, report : ${report.toString()}")
+            Log.d("FirebaseDB", "image : ${image.toString()}, report : ${report.toString()}")
             if(image != null){
                 try {
                     emit(FirebaseState.success(mapDBtoFireRepordModel(report, image)))
                 } catch (e : Exception){
-                    Log.e("FirebaseDB", e.toString())
+                    Log.d("FirebaseDB", e.toString())
                 }
             }
             else emit(FirebaseState.failed("data or image are null"))

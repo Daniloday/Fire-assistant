@@ -30,19 +30,19 @@ class MyReportsViewModel : ViewModel(), CoroutineScope {
                 repository.getAllFireReports().collect{
                     when(it){
                         is FirebaseState.Loading ->{
-                            Log.e("MyReportsViewModel", "Loading")
+                            Log.d("MyReportsViewModel", "Loading")
                         }
                         is FirebaseState.Success -> {
-                            Log.e("MyReportsViewModel", "Success ${it.data.toString()}")
+                            Log.d("MyReportsViewModel", "Success ${it.data.toString()}")
                             withContext(Dispatchers.Main) { myReports.value = it.data }
                         }
                         is FirebaseState.Failed -> {
-                            Log.e("MyReportsViewModel", "Failed ${it.message}")
+                            Log.d("MyReportsViewModel", "Failed ${it.message}")
                         }
                     }
                 }
             } catch (e : Exception){
-                Log.e("MyReportsViewModel", "Error ${e.toString()}")
+                Log.d("MyReportsViewModel", "Error ${e.toString()}")
             }
         }
     }

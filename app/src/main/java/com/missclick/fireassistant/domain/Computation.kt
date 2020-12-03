@@ -87,11 +87,13 @@ class Computation() {
         return Coordinate(x = x, y = y.toDouble())
     }
 
-     companion object{ fun getRadius(firstCoordinate: Coordinate, secondCoordinate: Coordinate) : Double{
-        val deltaX = firstCoordinate.x - secondCoordinate.x
-        val deltaY = firstCoordinate.y - secondCoordinate.y
-        return sqrt(((deltaX * deltaX) + (deltaY * deltaY)))
-     }
+     companion object{
+         fun getRadius(firstCoordinate: Coordinate, secondCoordinate: Coordinate) : Double{
+             Log.e("RAdius", "${firstCoordinate.x} and ${secondCoordinate.x}")
+            val deltaX = firstCoordinate.x - secondCoordinate.x
+            val deltaY = firstCoordinate.y - secondCoordinate.y
+            return sqrt(((deltaX * deltaX) + (deltaY * deltaY)))
+         }
     }
 
     private fun getCentre(coordinates: List<FireModel>) : FireModel{

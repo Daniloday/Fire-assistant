@@ -51,7 +51,7 @@ class ListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        listViewModel.getList(Coordinate(x = longitude,y = latitude))
+
         val request = LocationRequest()
         request.interval = 10000
         request.fastestInterval = 5000
@@ -66,6 +66,7 @@ class ListFragment : Fragment() {
                     if (location != null) {
                         longitude = location!!.longitude
                         latitude = location!!.latitude
+                        listViewModel.getList(Coordinate(x = longitude,y = latitude))
                     }
                 }
             }, null)

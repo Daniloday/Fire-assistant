@@ -38,26 +38,26 @@ class ListViewModel : ViewModel(), CoroutineScope {
                 repository.getAllFireReports().collect{
                     when(it){
                         is FirebaseState.Loading ->{
-                            Log.e("ListViewModel", "Loading")
+                            Log.d("ListViewModel", "Loading")
                         }
                         is FirebaseState.Success -> {
-                            Log.e("ListViewModel", "Success ${it.data.toString()}")
+                            Log.d("ListViewModel", "Success ${it.data.toString()}")
                             fireReports.add(it.data)
                             if (fireReports.size > 1) withContext(Dispatchers.IO){
                                 val computation = Computation()
                                 computation.getFires(fireReports,200.0,200.0, coordinate).collect {fire ->
-                                    Log.e("emit comp",fire.toString())
+                                    Log.d("emit comp",fire.toString())
                                     withContext(Dispatchers.Main) { myReports.value = fire }
                                 }
                             }
                         }
                         is FirebaseState.Failed -> {
-                            Log.e("ListViewModel", "Failed ${it.message}")
+                            Log.d("ListViewModel", "Failed ${it.message}")
                         }
                     }
                 }
             } catch (e : Exception){
-                Log.e("ListViewModel", "Error ${e.toString()}")
+                Log.d("ListViewModel", "Error ${e.toString()}")
             }
         }
     }
