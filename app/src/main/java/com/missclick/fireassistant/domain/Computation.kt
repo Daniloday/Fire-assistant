@@ -75,12 +75,12 @@ class Computation() {
 //        val y2 = secondTan * x + secondB
 //        val y = (y1 + y2)/2
         if (firstAzimuth > 0 && firstAzimuth < 90) if (y < firstCoordinate.y || x < firstCoordinate.x) return null
-        if (firstAzimuth > 90 && firstAzimuth < 180) if (y < firstCoordinate.y || x > firstCoordinate.x) return null
-        if (firstAzimuth < 360 && firstAzimuth > 270) if (y > firstCoordinate.y || x < firstCoordinate.x) return null
+        if (firstAzimuth > 90 && firstAzimuth < 180) if (y > firstCoordinate.y || x < firstCoordinate.x) return null
+        if (firstAzimuth < 360 && firstAzimuth > 270) if (y < firstCoordinate.y || x > firstCoordinate.x) return null
         if (firstAzimuth < 270 && firstAzimuth > 180) if (y > firstCoordinate.y || x > firstCoordinate.x) return null
         if (secondAzimuth > 0 && secondAzimuth < 90) if (y < secondCoordinate.y || x < secondCoordinate.x) return null
-        if (secondAzimuth > 90 && secondAzimuth < 180) if (y < secondCoordinate.y || x > secondCoordinate.x) return null
-        if (secondAzimuth < 360 && secondAzimuth > 270) if (y > secondCoordinate.y || x < secondCoordinate.x) return null
+        if (secondAzimuth > 90 && secondAzimuth < 180) if (y > secondCoordinate.y || x < secondCoordinate.x) return null
+        if (secondAzimuth < 360 && secondAzimuth > 270) if (y < secondCoordinate.y || x > secondCoordinate.x) return null
         if (secondAzimuth < 270 && secondAzimuth > 180) if (y > secondCoordinate.y || x > secondCoordinate.x) return null
         Log.e("Intersection", "$x,$y")
         return Coordinate(x = x, y = y.toDouble())
